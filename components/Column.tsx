@@ -1,5 +1,6 @@
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
+import TodoCard from './TodoCard'
 
 type Props = {
     id: TypedColumn,
@@ -26,13 +27,15 @@ const Column = ({ id, todos, index}: Props) => {
                     {(provided, snapshot) => (
                         <div {...provided.droppableProps} ref={provided.innerRef} className={`p-2 rounded-2xl shadow-sm ${snapshot.isDraggingOver ? "bg-green-200": "bg-white/50"}`}>
 
-                            <h2 className='flex justify-between font-bold text-xl p-2'>
-                                {idToColumnText[id]}
-                            </h2>
+                            <div className='flex items-center justify-between'>
+                                <h2 className='flex justify-between font-bold text-xl p-2'>
+                                    {idToColumnText[id]}
+                                </h2>
 
-                            <span className='text-gray-500 bg-gray-200 rounded-full px-2 py-1 text-sm font-normal'>
-                                {todos.length}
-                            </span>
+                                <span className='text-gray-500 bg-gray-200 rounded-full px-2 py-1 text-sm font-normal'>
+                                    {todos.length}
+                                </span>
+                            </div>
 
                             <div className='space-y-2'>
                                 {todos.map((todo, index) => (
