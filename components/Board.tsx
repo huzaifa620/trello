@@ -7,7 +7,7 @@ import Column from './Column'
 
 const Board = () => {
 
-  const [board, getBoard, setBoardState]= useBoardStore((state) => [state.board, state.getBoard, state.setBoardState])
+  const [board, getBoard, setBoardState, updateTodoInDb]= useBoardStore((state) => [state.board, state.getBoard, state.setBoardState, state.updateTodoInDb])
 
   useEffect(() => {
     getBoard()
@@ -63,7 +63,19 @@ const Board = () => {
       setBoardState({...board, columns: newColumns })
     } else {
       // Dragging to another column
+      const finishTodos = Array.from(finishCol.todos)
+      finishTodos.splice(destination.index, 0, todoMoved)
+
+      const newColumns = new Map(board.columns)
+      newColumns.set(finishCol.id, {
+        id: finishCol.id,
+        todos: finishTodos
+      })
+
+      //update in DB
+      updateTodoInDb(todoMoved, finishCol.id)
       
+      setBoardState({...board, columns: newColumns })
     }
 
   }
